@@ -17,8 +17,26 @@ const slides = [
 	}
 ]
 
-/***Flèches***/
+/***Ajout des EventListeners sur les flèches***/
 const arrow_left = document.querySelector(".arrow_left");
 const arrow_right = document.querySelector(".arrow_right");
 arrow_left.addEventListener("click", slide_back);
 arrow_right.addEventListener("click", slide_next);
+
+/***Ajout des bullet points au slider***/
+const dots_div = document.querySelector(".dots")
+for (let i = 0; i < slides.length; i++){
+	const dot = document.createElement("div");
+	dot.className = "dot";
+	dots_div.appendChild(dot);
+	dot.addEventListener('click', () => {carrousel_update(count, i)});
+}
+const dots = document.querySelectorAll(".dot");
+dots[0].classListadd("dot_selected");
+function carrousel_update(old_count, count_add){
+	count = count_add;
+	dots[old_count].classList.remove("dot_selected");
+	slide_img.src = "./assets/images/slideshow/" + slides[count_add].image;
+	slide_p.innerHTML = slides[count_add].tagLine;
+	dots[count_add].classList.add("dot_selected");
+}
