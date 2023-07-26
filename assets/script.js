@@ -33,6 +33,10 @@ for (let i = 0; i < slides.length; i++){
 }
 const dots = document.querySelectorAll(".dot");
 dots[0].classListadd("dot_selected");
+
+/***Modification de la slide au clic sur le bouton***/
+const slide_img = document.querySelector(".banner-img");
+const slide_p = document.querySelector("p");
 function carrousel_update(old_count, count_add){
 	count = count_add;
 	dots[old_count].classList.remove("dot_selected");
