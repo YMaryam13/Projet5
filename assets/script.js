@@ -17,56 +17,52 @@ const slides = [
 	}
 ];
 
-/***Ajout des EventListeners sur les flèches***/
-const arrow_left = document.querySelector(".arrow_left");
-arrow_left.addEventListener("click", silde_back);
-const arrow_right = document.querySelector(".arrow_right");							
-arrow_right.addEventListener("click", slide_next);
+const arrowLeft = document.querySelector(".arrow_left");
+arrowLeft.addEventListener("click", function(){
+	let nextSlide; 
+	if (currentSlide === 0) { 									
+		nextSlide = slides.length - 1;   								
+	} 
+	else {
+		nextSlide = currentSlide - 1 ;									
+	}
+	changeSlide(currentSlide, nextSlide);	
+});
 
-/***Ajout des bullet points au slider***/
-const dots_div = document.querySelector(".dots");
+const arrowRight = document.querySelector(".arrow_right");							
+arrowRight.addEventListener("click", function(){
+	let nextSlide;
+	if (currentSlide < slides.length - 1) { 			
+		nextSlide = currentSlide + 1; 									
+	} 
+	else {
+		nextSlide = 0; 										
+	}
+	changeSlide(currentSlide, nextSlide);
+});
+
+let currentSlide = 0;
+
+const dots = document.querySelector(".dots");
 for (let i = 0; i < slides.length; i++) {
-	const dot = document.createElement("div"); 						
-	dot.className = "dot";									
-	dots_div.appendChild(dot);								
-	dot.addEventListener('click', () => { carrousel_update (count, i) } );		
-}
-let count = 0;
-
-const dots = document.querySelectorAll(".dot");
-dots[0].classList.add("dot_selected");
-
-/***Modification de la slide au clic sur le bouton***/
-const slide_img = document.querySelector(".banner-img");
-const slide_p = document.querySelector("p");
-
-function carrousel_update(old_count, count_add) { 						
-	count = count_add;
-	dots[old_count].classList.remove("dot_selected");
-	slide_img.src = "./assets/images/slideshow/" + slides[count_add].image;
-	slide_p.innerHTML = slides[count_add].tagLine;
-	dots[count_add].classList.add("dot_selected");
+	const addDot = document.createElement("div"); 						
+	addDot.className = "dot";									
+	dots.appendChild(addDot);								
+	addDot.addEventListener('click', () => {
+		changeSlide (currentSlide, i)
+	} );		
 }
 
-/***Mise en place du défilement infini sur le carrousel***/
-function slide_next() {
-	let count_add;
-	if (count < slides.length - 1) { 			
-  	count_add = count + 1; 									
-	} 
-	else {
-  	count_add = 0; 										
-	}
-	carrousel_update(count, count_add);							
-}
+const dot = document.querySelectorAll(".dot");
+dot[0].classList.add("dot_selected");
 
-function silde_back() {
-	let count_add; 
-	if (count === 0) { 									
-  	count_add = slides.length - 1;   								
-	} 
-	else {
-	count_add = count - 1 ;									
-	}
-	carrousel_update(count, count_add);							
+const img = document.querySelector(".banner-img");
+const p = document.querySelector("p");
+
+function changeSlide(previousSlide, nextSlide) { 						
+	currentSlide = nextSlide;
+	dot[previousSlide].classList.remove("dot_selected");
+	img.src = "./assets/images/slideshow/" + slides[nextSlide].image;
+	p.innerHTML = slides[nextSlide].tagLine;
+	dot[nextSlide].classList.add("dot_selected");
 }
